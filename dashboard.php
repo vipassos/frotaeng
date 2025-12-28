@@ -4,7 +4,13 @@ require 'db.php';
 
 try {
     // 1. DADOS GERAIS (HISTÓRICO MISTO)
-    $stmt = $pdo->query("SELECT * FROM v_relatorio_consumo LIMIT 20");
+    // Ajuste para buscar o tipo_combustivel direto da tabela, caso a View esteja desatualizada
+    $stmt = $pdo->query("
+        SELECT vrc.*, a.tipo_combustivel
+        FROM v_relatorio_consumo vrc
+        JOIN abastecimentos a ON vrc.id = a.id
+        LIMIT 20
+    ");
     $historico = $stmt->fetchAll();
 
     // 2. TOTAIS GERAIS (CAIXA DA EMPRESA)
