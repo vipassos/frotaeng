@@ -1,0 +1,1 @@
+ALTER TABLE veiculos ADD COLUMN arquivo_crv VARCHAR(255) DEFAULT NULL;
