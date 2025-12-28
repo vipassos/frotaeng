@@ -21,24 +21,24 @@ if (!$veiculo) die("Veículo não encontrado.");
 
 // Busca Extrato com a nova coluna ESPECIALIDADE
 $sql = "
-    SELECT 
-        data_abastecimento as data, 
+    SELECT
+        data_abastecimento as data,
         'Combustível' as categoria,
-        especialidade, 
+        especialidade,
         CONCAT(litros, ' Lts (', tipo_combustivel, ') - KM ', km_momento) as descricao,
         valor_total as valor
-    FROM abastecimentos 
+    FROM abastecimentos
     WHERE veiculo_id = ? AND data_abastecimento BETWEEN ? AND ?
 
     UNION ALL
 
-    SELECT 
-        data_manutencao as data, 
+    SELECT
+        data_manutencao as data,
         'Manutenção' as categoria,
         especialidade,
         CONCAT(tipo, ' - ', descricao) as descricao,
         valor as valor
-    FROM manutencoes 
+    FROM manutencoes
     WHERE veiculo_id = ? AND data_manutencao BETWEEN ? AND ?
 
     ORDER BY data ASC
@@ -60,7 +60,8 @@ foreach($lancamentos as $l) { $total_periodo += $l['valor']; }
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    
+    <link rel="stylesheet" href="style.css">
+
     <style>
         @media screen {
             body { background-color: #525659; padding: 20px; }
@@ -82,7 +83,7 @@ foreach($lancamentos as $l) { $total_periodo += $l['valor']; }
 
     <div class="container no-print text-center">
         <div class="card p-3 d-inline-block shadow">
-            <form class="d-flex gap-2 align-items-end" method="GET">
+            <form class="d-flex flex-wrap gap-2 align-items-end justify-content-center" method="GET">
                 <input type="hidden" name="veiculo_id" value="<?= $veiculo_id ?>">
                 <div class="text-start">
                     <label class="form-label small mb-0">Início</label>
@@ -92,9 +93,11 @@ foreach($lancamentos as $l) { $total_periodo += $l['valor']; }
                     <label class="form-label small mb-0">Fim</label>
                     <input type="date" name="data_fim" value="<?= $data_fim ?>" class="form-control form-control-sm">
                 </div>
-                <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
-                <button type="button" onclick="window.print()" class="btn btn-sm btn-success">Imprimir</button>
-                <a href="index.php" class="btn btn-sm btn-secondary">Voltar</a>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+                    <button type="button" onclick="window.print()" class="btn btn-sm btn-success">Imprimir</button>
+                    <a href="index.php" class="btn btn-sm btn-secondary">Voltar</a>
+                </div>
             </form>
         </div>
     </div>

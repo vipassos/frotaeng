@@ -17,9 +17,9 @@ try {
     // 3. QUERY NOVA: RESUMO POR VEÍCULO E POR COMBUSTÍVEL
     // Agora agrupamos também pelo tipo_combustivel
     $sqlPorCarro = "
-        SELECT 
-            v.modelo, 
-            v.placa, 
+        SELECT
+            v.modelo,
+            v.placa,
             a.tipo_combustivel,
             SUM(a.valor_total) as gasto_total,
             AVG(rel.media_kml) as media_especifica,
@@ -38,9 +38,9 @@ try {
     $sqlManutencao = "
         SELECT v.id, v.modelo, v.placa, v.km_atual,
         (
-            SELECT proxima_troca_km 
-            FROM manutencoes m 
-            WHERE m.veiculo_id = v.id AND m.proxima_troca_km IS NOT NULL 
+            SELECT proxima_troca_km
+            FROM manutencoes m
+            WHERE m.veiculo_id = v.id AND m.proxima_troca_km IS NOT NULL
             ORDER BY m.data_manutencao DESC LIMIT 1
         ) as proxima_troca
         FROM veiculos v
@@ -62,6 +62,7 @@ try {
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         .card-kpi { border-left: 5px solid #0d6efd; transition: transform 0.2s; }
         .card-kpi:hover { transform: translateY(-5px); }
@@ -70,41 +71,56 @@ try {
 <body class="bg-light">
 
 <div class="container-fluid py-4">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <h2><i class="bi bi-speedometer2"></i> Dashboard de Frota</h2>
-        <a href="index.php" class="btn btn-outline-secondary">Voltar ao Menu</a>
+        <a href="index.php" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar ao Menu</a>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-4 g-3">
         <div class="col-md-4">
-            <div class="card card-kpi shadow-sm">
-                <div class="card-body">
-                    <h6 class="text-muted">Gasto Total da Frota</h6>
-                    <h3>R$ <?= number_format($totalGasto, 2, ',', '.') ?></h3>
+            <div class="card card-kpi shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-primary">
+                        <i class="bi bi-cash-coin display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Gasto Total da Frota</h6>
+                        <h3 class="mb-0">R$ <?= number_format($totalGasto, 2, ',', '.') ?></h3>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card card-kpi shadow-sm" style="border-left-color: #198754;">
-                <div class="card-body">
-                    <h6 class="text-muted">Média Geral (Global)</h6>
-                    <h3><?= number_format($mediaGeral, 2, ',', '.') ?> <small class="fs-6 text-muted">Km/L</small></h3>
+            <div class="card card-kpi shadow-sm h-100" style="border-left-color: #198754;">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-success">
+                        <i class="bi bi-droplet-half display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Média Geral (Global)</h6>
+                        <h3 class="mb-0"><?= number_format($mediaGeral, 2, ',', '.') ?> <small class="fs-6 text-muted">Km/L</small></h3>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card card-kpi shadow-sm" style="border-left-color: #dc3545;">
-                <div class="card-body">
-                    <h6 class="text-muted">Veículos Ativos</h6>
-                    <h3><?= count($statusFrota) ?></h3>
+            <div class="card card-kpi shadow-sm h-100" style="border-left-color: #dc3545;">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3 text-danger">
+                        <i class="bi bi-car-front-fill display-6"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Veículos Ativos</h6>
+                        <h3 class="mb-0"><?= count($statusFrota) ?></h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        
+
         <div class="col-12 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white">
@@ -131,7 +147,7 @@ try {
                                             <small class="text-muted fw-normal"><?= $r['placa'] ?></small>
                                         </td>
                                         <td>
-                                            <?php 
+                                            <?php
                                             $badgeColor = 'secondary';
                                             if($r['tipo_combustivel'] == 'Gasolina') $badgeColor = 'danger';
                                             if($r['tipo_combustivel'] == 'Etanol') $badgeColor = 'success';
@@ -145,7 +161,7 @@ try {
                                         <td>
                                             <?php if($r['media_especifica'] > 0): ?>
                                                 <span class="badge bg-white text-dark border border-dark">
-                                                    <?= number_format($r['media_especifica'], 2, ',', '.') ?> 
+                                                    <?= number_format($r['media_especifica'], 2, ',', '.') ?>
                                                     <?= ($r['tipo_combustivel'] == 'GNV') ? 'm³/km' : 'km/l' ?>
                                                 </span>
                                             <?php else: ?>
@@ -171,14 +187,14 @@ try {
                 </div>
                 <ul class="list-group list-group-flush">
                     <?php foreach ($statusFrota as $v): ?>
-                        <?php 
-                            if (empty($v['proxima_troca'])) continue; 
+                        <?php
+                            if (empty($v['proxima_troca'])) continue;
                             $km_restante = $v['proxima_troca'] - $v['km_atual'];
-                            
+
                             $classe = "list-group-item-light";
                             $icone = "bi-check-circle-fill text-success";
                             $texto_status = "OK";
-                            
+
                             if ($km_restante < 0) {
                                 $classe = "list-group-item-danger";
                                 $icone = "bi-exclamation-octagon-fill text-danger";

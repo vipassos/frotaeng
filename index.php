@@ -20,10 +20,11 @@ try {
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-primary mb-4">
+<nav class="navbar navbar-dark bg-primary mb-4 sticky-top">
     <div class="container">
         <a class="navbar-brand" href="dashboard.php"><i class="bi bi-car-front-fill"></i> Frota Passos</a>
         <div class="d-flex gap-2">
@@ -35,7 +36,7 @@ try {
 </nav>
 
 <div class="container">
-    
+
     <?php if(isset($_GET['msg'])): ?>
         <div class="alert alert-success alert-dismissible fade show">
             <?= htmlspecialchars($_GET['msg']) ?>
@@ -45,17 +46,17 @@ try {
 
     <div class="card shadow-sm">
         <div class="card-header bg-white">
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#resumo">Meus Veículos</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#abastecer">Novo Abastecimento</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#manutencao">Nova Manutenção</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#checklist">Checklist Rápido</button></li>
+            <ul class="nav nav-tabs card-header-tabs flex-nowrap overflow-auto" id="myTab" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#resumo"><i class="bi bi-car-front"></i> Meus Veículos</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#abastecer"><i class="bi bi-fuel-pump"></i> Novo Abastecimento</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#manutencao"><i class="bi bi-wrench"></i> Nova Manutenção</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#checklist"><i class="bi bi-clipboard-check"></i> Checklist Rápido</button></li>
             </ul>
         </div>
-        
+
         <div class="card-body">
             <div class="tab-content">
-                
+
                 <div class="tab-pane fade show active" id="resumo">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
@@ -75,21 +76,34 @@ try {
                                         <td><span class="badge bg-secondary"><?= $v['placa'] ?></span></td>
                                         <td><?= number_format($v['km_atual'], 0, ',', '.') ?> km</td>
                                         <td class="text-end">
-                                            <a href="veiculo_ficha.php?id=<?= $v['id'] ?>" class="btn btn-sm btn-info text-white" title="Ficha Técnica">
-                                                <i class="bi bi-card-checklist"></i> Ficha
-                                            </a>
-
-                                            <a href="historico_checklist.php?veiculo_id=<?= $v['id'] ?>" class="btn btn-sm btn-warning" title="Histórico de Verificações">
-                                                <i class="bi bi-clipboard-data"></i> Check
-                                            </a>
-
-                                            <a href="relatorio_imprimir.php?veiculo_id=<?= $v['id'] ?>" target="_blank" class="btn btn-sm btn-outline-dark" title="Imprimir Relatório">
-                                                <i class="bi bi-printer"></i>
-                                            </a>
-
-                                            <a href="excluir_veiculo.php?id=<?= $v['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Confirma a exclusão?')">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-boundary="viewport">
+                                                    Ações
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                                    <li>
+                                                        <a href="veiculo_ficha.php?id=<?= $v['id'] ?>" class="dropdown-item">
+                                                            <i class="bi bi-card-checklist text-info me-2"></i> Ficha Técnica
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="historico_checklist.php?veiculo_id=<?= $v['id'] ?>" class="dropdown-item">
+                                                            <i class="bi bi-clipboard-data text-warning me-2"></i> Histórico Checks
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="relatorio_imprimir.php?veiculo_id=<?= $v['id'] ?>" target="_blank" class="dropdown-item">
+                                                            <i class="bi bi-printer text-dark me-2"></i> Imprimir Relatório
+                                                        </a>
+                                                    </li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <a href="excluir_veiculo.php?id=<?= $v['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Confirma a exclusão?')">
+                                                            <i class="bi bi-trash me-2"></i> Excluir
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -115,7 +129,7 @@ try {
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-primary">Finalidade / Despesa</label>
                                 <select name="especialidade" class="form-select" required>
@@ -146,7 +160,7 @@ try {
                                 <label class="form-label">Litros</label>
                                 <input type="number" step="0.01" name="litros" class="form-control" required>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label class="form-label">Valor Total</label>
                                 <input type="text" name="valor_total" class="form-control dinheiro" placeholder="R$ 0,00" onkeyup="formatarMoeda(this)" required>
@@ -197,7 +211,7 @@ try {
                                 <label class="form-label">Data</label>
                                 <input type="date" name="data" value="<?= date('Y-m-d') ?>" class="form-control" required>
                             </div>
-                            
+
                             <div class="col-md-5">
                                 <label class="form-label">KM no Painel (Realizado em)</label>
                                 <input type="number" name="km_momento" id="manut_km_momento" class="form-control" required onkeyup="calcularProximaTroca()">
@@ -217,7 +231,7 @@ try {
                                 <label class="form-label">Valor</label>
                                 <input type="text" name="valor" class="form-control dinheiro" placeholder="R$ 0,00" onkeyup="formatarMoeda(this)" required>
                             </div>
-                            
+
                             <div class="col-md-8">
                                 <label class="form-label">Descrição Detalhada</label>
                                 <input type="text" name="descricao" class="form-control" placeholder="Ex: Óleo 5w30 Sintético e Filtros" required>
@@ -392,7 +406,7 @@ try {
 
         // Se ainda não digitou KM do serviço, usa 0 ou espera
         if (kmAtual <= 0) {
-             return; 
+             return;
         }
 
         try {

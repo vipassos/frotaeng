@@ -8,7 +8,7 @@ $msg = "";
 // 1. Processa a atualização se o formulário for enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
-    
+
     // Dados Cadastrais e Técnicos Originais
     $cor = $_POST['cor'];
     $renavam = $_POST['renavam'];
@@ -27,18 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $int_meses = $_POST['intervalo_tempo_meses'];
 
     // Atualiza todos os dados
-    $sql = "UPDATE veiculos SET 
-            cor=?, renavam=?, chassi=?, combustivel_padrao=?, oleo_motor=?, calibragem_pneus=?, 
+    $sql = "UPDATE veiculos SET
+            cor=?, renavam=?, chassi=?, combustivel_padrao=?, oleo_motor=?, calibragem_pneus=?,
             seguradora=?, apolice=?, telefone_seguro=?,
             intervalo_oleo_km=?, intervalo_filtro_ar_km=?, intervalo_filtro_comb_km=?, intervalo_tempo_meses=?
             WHERE id=?";
-            
+
     $stmt = $pdo->prepare($sql);
-    
+
     $params = [
-        $cor, $renavam, $chassi, $combustivel, $oleo, $pneus, 
-        $seguradora, $apolice, $tel_seguro, 
-        $int_oleo, $int_ar, $int_comb, $int_meses, 
+        $cor, $renavam, $chassi, $combustivel, $oleo, $pneus,
+        $seguradora, $apolice, $tel_seguro,
+        $int_oleo, $int_ar, $int_comb, $int_meses,
         $id
     ];
 
@@ -63,16 +63,19 @@ if(!$v) die("Veículo não encontrado.");
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
 
 <div class="container py-4">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <h2 class="fw-bold mb-0"><?= $v['modelo'] ?> <span class="text-muted fs-4">| <?= $v['placa'] ?></span></h2>
-            <span class="badge bg-primary"><?= $v['marca'] ?></span>
-            <span class="badge bg-secondary"><?= $v['ano'] ?></span>
+            <div class="mt-1">
+                <span class="badge bg-primary"><?= $v['marca'] ?></span>
+                <span class="badge bg-secondary"><?= $v['ano'] ?></span>
+            </div>
         </div>
         <a href="index.php" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Voltar</a>
     </div>
@@ -86,9 +89,9 @@ if(!$v) die("Veículo não encontrado.");
 
     <form method="POST">
         <input type="hidden" name="id" value="<?= $v['id'] ?>">
-        
+
         <div class="row">
-            
+
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-dark text-white"><i class="bi bi-file-earmark-text"></i> Documentação</div>
@@ -137,7 +140,7 @@ if(!$v) die("Veículo não encontrado.");
                             </select>
                             <div class="form-text">Usado para base de cálculo.</div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">Óleo do Motor</label>
                             <input type="text" name="oleo_motor" class="form-control" value="<?= $v['oleo_motor'] ?>" placeholder="Ex: 5W30 Sintético">
@@ -156,7 +159,7 @@ if(!$v) die("Veículo não encontrado.");
                     <div class="card-header bg-success text-white"><i class="bi bi-calendar-check"></i> Plano de Revisão</div>
                     <div class="card-body">
                         <p class="small text-muted mb-3">Defina os intervalos (em KM) recomendados pelo fabricante.</p>
-                        
+
                         <div class="mb-3">
                             <label class="fw-bold text-success">Óleo e Filtro (KM)</label>
                             <input type="number" name="intervalo_oleo_km" class="form-control" value="<?= $v['intervalo_oleo_km'] ?>" placeholder="Padrão: 10000">

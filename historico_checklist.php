@@ -42,19 +42,22 @@ function getStatusBadge($status) {
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
 
 <div class="container py-4">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <h4 class="fw-bold mb-0">Diário de Bordo <small class="text-muted">| Checklists</small></h4>
-            <span class="fs-5"><?= $veiculo['modelo'] ?></span> <span class="badge bg-primary"><?= $veiculo['placa'] ?></span>
+            <div class="mt-1">
+                <span class="fs-5"><?= $veiculo['modelo'] ?></span> <span class="badge bg-primary"><?= $veiculo['placa'] ?></span>
+            </div>
         </div>
-        <div>
+        <div class="d-flex gap-2">
             <button onclick="window.print()" class="btn btn-outline-dark d-print-none"><i class="bi bi-printer"></i> Imprimir</button>
-            <a href="index.php" class="btn btn-secondary d-print-none">Voltar</a>
+            <a href="index.php" class="btn btn-secondary d-print-none"><i class="bi bi-arrow-left"></i> Voltar</a>
         </div>
     </div>
 
