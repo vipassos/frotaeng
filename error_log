@@ -1,0 +1,5 @@
+[27-Dec-2025 15:21:59 America/Fortaleza] PHP Warning:  require(auth.php): Failed to open stream: No such file or directory in /home4/reparo51/public_html/frotaeng/index.php on line 2
+[27-Dec-2025 15:21:59 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required 'auth.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/reparo51/public_html/frotaeng/index.php:2
+Stack trace:
+#0 {main}
+  thrown in /home4/reparo51/public_html/frotaeng/index.php on line 2
