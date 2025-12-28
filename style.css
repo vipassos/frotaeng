@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bs-font-sans-serif: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --dark-text: #2c3e50;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --btn-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: var(--bs-font-sans-serif);
+    background-color: #f4f6f9;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--dark-text);
+    letter-spacing: -0.5px;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #edf2f7;
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow: var(--btn-shadow);
+    transition: all 0.2s;
+}
+
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+.btn-success { background-color: var(--success-color); border-color: var(--success-color); }
+
+/* Form Elements - Touch Friendly */
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.75rem 1rem; /* Taller for touch */
+    border: 1px solid #e2e8f0;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Allow dropdowns to show outside responsive tables if possible,
+   though data-bs-boundary is the main fix.
+   We ensure the table itself doesn't clip vertically if not needed.
+*/
+.table-responsive {
+    overflow-y: visible;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #edf2f7;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* Tabs */
+.nav-tabs {
+    border-bottom: none;
+    /* Hide Scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+}
+.nav-tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap; /* Prevent wrapping */
+}
+.nav-tabs .nav-link:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+}
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    background-color: #e7f1ff;
+    font-weight: 600;
+}
+
+/* Badges */
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+/* Login Page Specific */
+.login-card {
+    border-top: 5px solid var(--primary-color);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Scrollable Tabs for Mobile */
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Card Padding reduction */
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Increase button size for better touch */
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
