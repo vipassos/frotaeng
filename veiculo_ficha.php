@@ -26,21 +26,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $int_comb = $_POST['intervalo_filtro_comb_km'];
     $int_meses = $_POST['intervalo_tempo_meses'];
 
+    // Lógica de Upload do Arquivo CRV
+    $nome_arquivo = null;
+    if (isset($_FILES['arquivo_crv']) && $_FILES['arquivo_crv']['error'] == 0) {
+        $ext = pathinfo($_FILES['arquivo_crv']['name'], PATHINFO_EXTENSION);
+        if (strtolower($ext) == 'pdf') {
+            $novo_nome = "crv_" . $id . "_" . time() . ".pdf";
+
+            // Garante que o diretório existe
+            if (!is_dir("assets/docs")) {
+                mkdir("assets/docs", 0755, true);
+            }
+
+            if (move_uploaded_file($_FILES['arquivo_crv']['tmp_name'], "assets/docs/" . $novo_nome)) {
+                $nome_arquivo = $novo_nome;
+            }
+        }
+    }
+
     // Atualiza todos os dados
-    $sql = "UPDATE veiculos SET
-            cor=?, renavam=?, chassi=?, combustivel_padrao=?, oleo_motor=?, calibragem_pneus=?,
-            seguradora=?, apolice=?, telefone_seguro=?,
-            intervalo_oleo_km=?, intervalo_filtro_ar_km=?, intervalo_filtro_comb_km=?, intervalo_tempo_meses=?
-            WHERE id=?";
+    if ($nome_arquivo) {
+        $sql = "UPDATE veiculos SET
+                cor=?, renavam=?, chassi=?, combustivel_padrao=?, oleo_motor=?, calibragem_pneus=?,
+                seguradora=?, apolice=?, telefone_seguro=?,
+                intervalo_oleo_km=?, intervalo_filtro_ar_km=?, intervalo_filtro_comb_km=?, intervalo_tempo_meses=?,
+                arquivo_crv=?
+                WHERE id=?";
+
+        $params = [
+            $cor, $renavam, $chassi, $combustivel, $oleo, $pneus,
+            $seguradora, $apolice, $tel_seguro,
+            $int_oleo, $int_ar, $int_comb, $int_meses,
+            $nome_arquivo,
+            $id
+        ];
+    } else {
+        $sql = "UPDATE veiculos SET
+                cor=?, renavam=?, chassi=?, combustivel_padrao=?, oleo_motor=?, calibragem_pneus=?,
+                seguradora=?, apolice=?, telefone_seguro=?,
+                intervalo_oleo_km=?, intervalo_filtro_ar_km=?, intervalo_filtro_comb_km=?, intervalo_tempo_meses=?
+                WHERE id=?";
+
+        $params = [
+            $cor, $renavam, $chassi, $combustivel, $oleo, $pneus,
+            $seguradora, $apolice, $tel_seguro,
+            $int_oleo, $int_ar, $int_comb, $int_meses,
+            $id
+        ];
+    }
 
     $stmt = $pdo->prepare($sql);
-
-    $params = [
-        $cor, $renavam, $chassi, $combustivel, $oleo, $pneus,
-        $seguradora, $apolice, $tel_seguro,
-        $int_oleo, $int_ar, $int_comb, $int_meses,
-        $id
-    ];
 
     if($stmt->execute($params)) {
         $msg = "Ficha e Plano de Manutenção atualizados com sucesso!";
@@ -87,7 +122,7 @@ if(!$v) die("Veículo não encontrado.");
         </div>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $v['id'] ?>">
 
         <div class="row">
@@ -96,6 +131,17 @@ if(!$v) die("Veículo não encontrado.");
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-dark text-white"><i class="bi bi-file-earmark-text"></i> Documentação</div>
                     <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Documento Digital (CRV/CRLV)</label>
+                            <input type="file" name="arquivo_crv" class="form-control" accept="application/pdf">
+                            <?php if(!empty($v['arquivo_crv'])): ?>
+                                <div class="mt-2">
+                                    <a href="assets/docs/<?= $v['arquivo_crv'] ?>" target="_blank" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-eye"></i> Visualizar Documento
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Cor do Veículo</label>
                             <input type="text" name="cor" class="form-control" value="<?= $v['cor'] ?>" placeholder="Ex: Branco">

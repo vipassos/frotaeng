@@ -72,7 +72,12 @@ try {
                                 <?php if(count($veiculos) > 0): ?>
                                     <?php foreach ($veiculos as $v): ?>
                                     <tr>
-                                        <td><strong><?= $v['modelo'] ?></strong> <small class="text-muted"><?= $v['marca'] ?></small></td>
+                                        <td>
+                                            <strong><?= $v['modelo'] ?></strong> <small class="text-muted"><?= $v['marca'] ?></small>
+                                            <?php if(!empty($v['arquivo_crv'])): ?>
+                                                <i class="bi bi-file-pdf text-danger ms-1" title="Documento Digital Disponível"></i>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><span class="badge bg-secondary"><?= $v['placa'] ?></span></td>
                                         <td><?= number_format($v['km_atual'], 0, ',', '.') ?> km</td>
                                         <td class="text-end">
