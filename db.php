@@ -1,9 +1,9 @@
 <?php
 // Ajuste com os dados da Hostgator
 $host = 'localhost';
-$db   = 'reparo51_frotaeng';
-$user = 'reparo51_frotaeng';
-$pass = 'Vop@0713246';
+$db   = 'nome_do_banco';
+$user = 'usuario_banco';
+$pass = 'senha_banco';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -17,4 +17,5 @@ try {
 } catch (\PDOException $e) {
     die("Erro de conexão: " . $e->getMessage());
 }
+
 ?>
