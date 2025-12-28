@@ -141,6 +141,7 @@ SELECT
     `a`.`km_momento` AS `km_momento`, 
     `a`.`litros` AS `litros`, 
     `a`.`valor_total` AS `valor_total`, 
+    `a`.`tipo_combustivel` AS `tipo_combustivel`,
     -- Cálculo de KM Percorrido
     (`a`.`km_momento` - (
         SELECT max(`b`.`km_momento`) 
