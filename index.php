@@ -76,7 +76,7 @@ try {
                                         <td><span class="badge bg-secondary"><?= $v['placa'] ?></span></td>
                                         <td><?= number_format($v['km_atual'], 0, ',', '.') ?> km</td>
                                         <td class="text-end">
-                                            <div class="dropdown">
+                                            <div class="dropdown position-static">
                                                 <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-boundary="viewport">
                                                     Ações
                                                 </button>

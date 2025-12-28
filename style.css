@@ -111,16 +111,14 @@ h1, h2, h3, h4, h5, h6 {
 /* Tables */
 .table-responsive {
     border-radius: 12px;
-    overflow: hidden;
+    /* overflow: hidden; Removed to prevent clipping of dropdowns */
+    overflow-x: auto; /* Ensure horizontal scroll is enabled */
 }
 
-/* Allow dropdowns to show outside responsive tables if possible,
-   though data-bs-boundary is the main fix.
-   We ensure the table itself doesn't clip vertically if not needed.
+/* Allow dropdowns to show outside responsive tables if possible.
+   Note: overflow-y: visible is invalid if overflow-x is auto,
+   so we rely on position: static in the dropdown or Popper.js boundary.
 */
-.table-responsive {
-    overflow-y: visible;
-}
 
 .table thead th {
     background-color: #f8f9fa;
@@ -142,13 +140,17 @@ h1, h2, h3, h4, h5, h6 {
 /* Tabs */
 .nav-tabs {
     border-bottom: none;
-    /* Hide Scrollbar */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE 10+ */
+    /* Scrollbar should be visible for usability on some devices,
+       but if you want to hide it, uncomment below.
+       Removing hiding to ensure users see it's scrollable. */
+    /* scrollbar-width: none; */
+    /* -ms-overflow-style: none; */
 }
+/*
 .nav-tabs::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none;
 }
+*/
 
 .nav-tabs .nav-link {
     border: none;
